@@ -1,0 +1,359 @@
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import EmoTeenLogo from "@/components/EmoTeenLogo";
+import { useSecurityLogger } from "@/hooks/useSecurityLogger";
+import QuizCard from "@/components/ui/quiz-card";
+import ResultCard from "@/components/ui/result-card";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
+const Quiz = () => {
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [answers, setAnswers] = useState<number[]>(new Array(35).fill(0));
+  const [showResult, setShowResult] = useState(false);
+  const [resultado, setResultado] = useState<'verde' | 'amarelo' | 'vermelho'>('verde');
+  const [pontuacao, setPontuacao] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const { logAction } = useSecurityLogger();
+
+  // Verificar se usuário está autenticado e tem consentimento válido
+  useEffect(() => {
+    const checkAuthAndConsent = async () => {
+      const userDataString = sessionStorage.getItem('userData');
+      const schoolDataString = sessionStorage.getItem('schoolData');
+      
+      if (!userDataString || !schoolDataString) {
+        navigate('/login');
+        return;
+      }
+
+      const userData = JSON.parse(userDataString);
+      const schoolData = JSON.parse(schoolDataString);
+
+      // Verificar se existe consentimento válido
+      try {
+        const { data, error } = await supabase
+          .from('consentimento_responsavel')
+          .select('*')
+          .eq('aluno_nome', userData.nome)
+          .eq('escola_id', schoolData.id)
+          .eq('ativo', true)
+          .single();
+
+        if (error || !data) {
+          // Não há consentimento válido, redirecionar para página de consentimento
+          navigate('/consentimento');
+          return;
+        }
+
+        // Log da ação
+        await logAction({
+          acao: 'quiz_acessado',
+          escola_id: schoolData.id,
+          detalhes: { aluno_nome: userData.nome }
+        });
+      } catch (error) {
+        console.error('Erro ao verificar consentimento:', error);
+        navigate('/consentimento');
+      }
+    };
+
+    checkAuthAndConsent();
+  }, [navigate, logAction]);
+
+  const questions = [
+    // Perguntas de Bem-estar (1-15, Verde)
+    "Eu consigo me concentrar bem durante as aulas.",
+    "Eu costumo dormir bem e acordo disposto(a).",
+    "Me sinto confortável conversando com amigos e familiares.",
+    "Eu me sinto seguro(a) na escola.",
+    "Me sinto motivado(a) a estudar ou fazer atividades que gosto.",
+    "Eu tenho facilidade em lidar com pequenas frustrações.",
+    "Sinto que tenho pessoas que se importam comigo.",
+    "Me sinto confiante com quem sou.",
+    "Eu costumo manter minha rotina organizada.",
+    "Sinto que minha saúde física está boa.",
+    "Eu consigo controlar minha raiva ou irritação com facilidade.",
+    "Me sinto feliz com frequência.",
+    "Consigo pedir ajuda quando preciso.",
+    "Me sinto incluído(a) nas atividades da escola.",
+    "Me divirto e aproveito meu tempo livre.",
+    
+    // Perguntas de Atenção (16-27, Amarelo)
+    "Me sinto muito cansado(a), mesmo sem fazer esforço físico.",
+    "Tenho dificuldade para dormir ou insônia frequente.",
+    "Me sinto sobrecarregado(a) com as cobranças do dia a dia.",
+    "Tenho dificuldade em me concentrar nas aulas ou tarefas.",
+    "Às vezes evito contato com pessoas próximas.",
+    "Sinto que não estou rendendo como antes.",
+    "Me sinto inseguro(a) sobre o meu futuro.",
+    "Tenho tido muitas mudanças de humor.",
+    "Sinto falta de vontade de fazer coisas que antes gostava.",
+    "Costumo me sentir sozinho(a), mesmo quando há pessoas por perto.",
+    "Já pensei em faltar à escola para evitar algum desconforto.",
+    "Me sinto pressionado(a) para agradar os outros o tempo todo.",
+    
+    // Perguntas Críticas (28-35, Vermelho)
+    "Sinto que minha vida não faz sentido.",
+    "Já pensei em machucar a mim mesmo(a).",
+    "Sinto uma tristeza profunda que não passa.",
+    "Já chorei escondido(a) por não saber o que fazer com o que estou sentindo.",
+    "Sinto que ninguém me entende ou me escuta de verdade.",
+    "Já pensei em desistir de tudo.",
+    "Tenho vontade de desaparecer ou sumir por um tempo.",
+    "Sinto que estou no limite, como se fosse explodir."
+  ];
+
+  const handleAnswerChange = (value: number) => {
+    const newAnswers = [...answers];
+    newAnswers[currentQuestion] = value;
+    setAnswers(newAnswers);
+  };
+
+  const handleNext = () => {
+    if (answers[currentQuestion] === 0) {
+      toast({
+        title: "Selecione uma resposta",
+        description: "Por favor, escolha uma opção antes de continuar.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    if (currentQuestion < questions.length - 1) {
+      setCurrentQuestion(currentQuestion + 1);
+    } else {
+      calculateResult();
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentQuestion > 0) {
+      setCurrentQuestion(currentQuestion - 1);
+    }
+  };
+
+  const calculateResult = async () => {
+    setLoading(true);
+    
+    // Inverter pontuação das perguntas verdes (1-15, índices 0-14)
+    const invertedGreenScores = answers.slice(0, 15).map(score => 4 - score);
+    // Manter pontuação original para amarelo (16-27, índices 15-26) e vermelho (28-35, índices 27-34)
+    const yellowScores = answers.slice(15, 27);
+    const redScores = answers.slice(27, 35);
+    
+    // Calcular pontuação total
+    const totalScore = [...invertedGreenScores, ...yellowScores, ...redScores].reduce((sum, score) => sum + score, 0);
+    setPontuacao(totalScore);
+
+    // Contar respostas críticas (perguntas 28-35, índices 27-34) com nota 3 ou 4
+    const respostasCriticasAltas = redScores.filter(resposta => resposta >= 3).length;
+
+    // Determinar resultado conforme lógica corrigida
+    let resultadoFinal: 'verde' | 'amarelo' | 'vermelho';
+    
+    if (respostasCriticasAltas >= 3 || totalScore > 80) {
+      resultadoFinal = 'vermelho';
+    } else if (totalScore >= 46 && totalScore <= 80) {
+      resultadoFinal = 'amarelo';
+    } else {
+      resultadoFinal = 'verde';
+    }
+    
+    setResultado(resultadoFinal);
+
+    // Salvar no banco de dados
+    try {
+      const userDataString = sessionStorage.getItem('userData');
+      const schoolDataString = sessionStorage.getItem('schoolData');
+      
+      if (!userDataString || !schoolDataString) {
+        throw new Error('Dados de sessão não encontrados');
+      }
+
+      const userData = JSON.parse(userDataString);
+      const schoolData = JSON.parse(schoolDataString);
+
+      const { error } = await supabase
+        .from('respostas_quiz')
+        .insert({
+          aluno_nome: userData.nome,
+          escola_id: schoolData.id,
+          serie_id: userData.serie_id || null,
+          respostas: answers, // Armazena respostas originais (não invertidas)
+          resultado: resultadoFinal,
+          pontuacao: totalScore,
+          encaminhado: false
+        });
+
+      if (error) throw error;
+
+      // Log da ação
+      await logAction({
+        acao: 'quiz_finalizado',
+        escola_id: schoolData.id,
+        detalhes: {
+          aluno_nome: userData.nome,
+          resultado: resultadoFinal,
+          pontuacao: totalScore
+        }
+      });
+
+      setShowResult(true);
+      
+      toast({
+        title: "Avaliação concluída!",
+        description: "Suas respostas foram registradas com sucesso.",
+      });
+    } catch (error) {
+      console.error('Erro ao salvar respostas:', error);
+      toast({
+        title: "Erro ao salvar",
+        description: "Houve um problema ao registrar suas respostas. Tente novamente.",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleEncaminhar = async () => {
+    try {
+      const userDataString = sessionStorage.getItem('userData');
+      const schoolDataString = sessionStorage.getItem('schoolData');
+      
+      if (!userDataString || !schoolDataString) {
+        throw new Error('Dados de sessão não encontrados');
+      }
+
+      const userData = JSON.parse(userDataString);
+      const schoolData = JSON.parse(schoolDataString);
+
+      const { error } = await supabase
+        .from('respostas_quiz')
+        .update({ encaminhado: true })
+        .eq('aluno_nome', userData.nome)
+        .eq('escola_id', schoolData.id);
+
+      if (error) throw error;
+
+      // Log da ação
+      await logAction({
+        acao: 'encaminhamento_solicitado',
+        escola_id: schoolData.id,
+        detalhes: { aluno_nome: userData.nome }
+      });
+
+      toast({
+        title: "Solicitação enviada!",
+        description: "A escola foi notificada e entrará em contato em breve.",
+      });
+    } catch (error) {
+      console.error('Erro ao encaminhar:', error);
+      toast({
+        title: "Erro",
+        description: "Não foi possível enviar a solicitação. Tente novamente.",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleFinish = () => {
+    // Limpar sessão e voltar ao início
+    sessionStorage.clear();
+    navigate('/');
+  };
+
+  if (showResult) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-background via-background to-secondary/10 flex items-center justify-center p-4">
+        <div className="w-full max-w-4xl space-y-8">
+          <div className="text-center">
+            <EmoTeenLogo size="md" className="mx-auto mb-4" />
+            <h1 className="text-2xl font-bold text-foreground">Resultado da Avaliação</h1>
+          </div>
+
+          <ResultCard 
+            resultado={resultado}
+            pontuacao={pontuacao}
+            onEncaminhar={resultado === 'vermelho' ? handleEncaminhar : undefined}
+          />
+
+          <div className="text-center">
+            <Button 
+              onClick={handleFinish}
+              variant="outline"
+              className="px-8 py-2"
+            >
+              Finalizar
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-secondary/10 flex items-center justify-center p-4">
+      <div className="w-full max-w-4xl space-y-8">
+        {/* Header */}
+        <div className="text-center space-y-4">
+          <EmoTeenLogo size="md" className="mx-auto" />
+          <div>
+            <h1 className="text-2xl font-bold text-foreground">Avaliação de Bem-estar</h1>
+            <p className="text-muted-foreground">
+              Responda com sinceridade. Não existem respostas certas ou erradas.
+            </p>
+          </div>
+        </div>
+
+        {/* Quiz */}
+        <QuizCard
+          question={questions[currentQuestion]}
+          questionNumber={currentQuestion + 1}
+          totalQuestions={questions.length}
+          selectedValue={answers[currentQuestion] || null}
+          onValueChange={handleAnswerChange}
+        />
+
+        {/* Navigation */}
+        <div className="flex justify-between items-center max-w-2xl mx-auto">
+          <Button
+            variant="outline"
+            onClick={handlePrevious}
+            disabled={currentQuestion === 0}
+            className="flex items-center gap-2"
+          >
+            <ChevronLeft className="w-4 h-4" />
+            Anterior
+          </Button>
+
+          <span className="text-sm text-muted-foreground">
+            {currentQuestion + 1} de {questions.length}
+          </span>
+
+          <Button
+            onClick={handleNext}
+            disabled={loading}
+            className="flex items-center gap-2"
+          >
+            {currentQuestion === questions.length - 1 ? (
+              loading ? 'Finalizando...' : 'Finalizar'
+            ) : (
+              <>
+                Próxima
+                <ChevronRight className="w-4 h-4" />
+              </>
+            )}
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Quiz;
