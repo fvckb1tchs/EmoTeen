@@ -13,7 +13,7 @@ const EmoTeenLogo = ({ className = "", size = 'md' }: EmoTeenLogoProps) => {
   return (
     <div className={`${sizeMap[size]} ${className}`}>
       <img 
-        src="/lovable-uploads/c04afde2-c722-4220-9011-131543b08abc.png" 
+        src="/lovable-uploads/67E79165-240D-48DD-982D-A8913823506C.png" 
         alt="EmoTeen - Inteligência Emocional"
         className="w-full h-full object-contain"
       />
