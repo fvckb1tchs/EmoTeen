@@ -1,6 +1,6 @@
 import React from 'react';
 
-const EmoTeenHowItWorks: React.FC = () => {
+const ComoFunciona: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
       {/* Hero Section */}
@@ -179,4 +179,4 @@ const EmoTeenHowItWorks: React.FC = () => {
   );
 };
 
-export default EmoTeenHowItWorks;
+export default ComoFunciona;
