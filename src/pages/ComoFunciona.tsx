@@ -1,242 +1,182 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useNavigate } from "react-router-dom";
-import EmoTeenLogo from "@/components/EmoTeenLogo";
-import { ArrowRight, Shield, Heart, Users, UserCheck, MessageSquare, Target, HeadphonesIcon } from "lucide-react";
+import React from 'react';
 
-const ComoFunciona = () => {
-  const navigate = useNavigate();
-
+const EmoTeenHowItWorks: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-secondary/10">
-      {/* Header */}
-      <header className="px-4 py-6">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <EmoTeenLogo size="md" />
-            <h1 className="text-2xl font-bold text-foreground">EmoTeen</h1>
-          </div>
-          <Button 
-            variant="outline" 
-            onClick={() => navigate('/dashboard')}
-            className="flex items-center gap-2"
-          >
-            <Shield className="w-4 h-4" />
-            Dashboard Escola
-          </Button>
-        </div>
-      </header>
-
+    <div className="min-h-screen bg-gray-50 font-sans">
       {/* Hero Section */}
-      <main className="px-4 py-12">
-        <div className="max-w-6xl mx-auto text-center space-y-8">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground leading-tight">
-            Alunos sofrem em silêncio — cada minuto de inação pesa
-          </h2>
-          <p className="text-xl text-red-700 font-semibold max-w-2xl mx-auto leading-relaxed">
-            Ansiedade, depressão, estresse e isolamento são problemas invisíveis que corroem o rendimento e a segurança emocional. Ignorar é permitir que crises aconteçam.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              onClick={() => navigate('/login')}
-              size="lg"
-              className="text-lg px-8 py-6 h-auto bg-primary hover:bg-primary/90"
-            >
-              Iniciar Avaliação
-              <ArrowRight className="ml-2 w-5 h-5" />
-            </Button>
-            <Button 
-              variant="outline" 
-              size="lg"
-              onClick={() => navigate('/dashboard')}
-              className="text-lg px-8 py-6 h-auto"
-            >
-              Acesso Escolar
-              <Shield className="ml-2 w-5 h-5" />
-            </Button>
+      <section className="bg-gradient-to-r from-blue-800 to-green-600 text-white py-20 text-center">
+        <h1 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">
+          Cada dia de inação pesa na vida dos seus alunos
+        </h1>
+        <p className="text-lg md:text-xl max-w-2xl mx-auto mb-8 leading-relaxed">
+          Ansiedade, estresse e sofrimento silencioso estão aumentando dentro das escolas. A EmoTeen é a ponte entre o problema e a solução, oferecendo suporte psicológico profissional antes que seja tarde demais.
+        </p>
+        <a
+          href="#start"
+          className="inline-block bg-green-500 text-white font-semibold py-3 px-6 rounded-lg hover:bg-green-600 transition duration-300 animate-pulse"
+        >
+          Não espere — inicie agora a avaliação e proteja seus alunos
+        </a>
+      </section>
+
+      {/* Passos */}
+      <section className="py-16 px-4 max-w-6xl mx-auto">
+        {/* Passo 1 – Identificação Segura */}
+        <div className="mb-12 flex flex-col md:flex-row items-center bg-white rounded-lg shadow-md p-6">
+          <div className="md:w-1/2 mb-6 md:mb-0">
+            <h2 className="text-2xl font-bold text-blue-800 mb-4">Passo 1 – Identificação Segura</h2>
+            <ul className="list-disc pl-6 text-gray-700 space-y-2">
+              <li>O aluno acessa com código da escola + nome + série.</li>
+              <li>Totalmente seguro e confidencial — ninguém fora da escola terá acesso.</li>
+              <li>
+                <strong>Mensagem de impacto:</strong> Cada dado protegido é uma vida emocional que você começa a salvar.
+              </li>
+            </ul>
           </div>
-        </div>
-
-        {/* Benefits Section */}
-        <div className="grid md:grid-cols-3 gap-6 mt-16">
-          <Card className="text-center border-0 shadow-lg bg-white/90 backdrop-blur-md">
-            <CardHeader className="pb-4">
-              <div className="w-16 h-16 bg-gradient-to-br from-red-500/30 to-red-700/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Heart className="w-8 h-8 text-red-600" />
-              </div>
-              <CardTitle className="text-xl font-bold text-red-700">Sinais de Alerta</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">
-                Detecte problemas antes que se tornem crises: cada aluno não monitorado é um risco silencioso para o futuro.
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="text-center border-0 shadow-lg bg-white/90 backdrop-blur-md">
-            <CardHeader className="pb-4">
-              <div className="w-16 h-16 bg-gradient-to-br from-red-500/30 to-red-700/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Shield className="w-8 h-8 text-red-600" />
-              </div>
-              <CardTitle className="text-xl font-bold text-red-700">Privacidade Segura</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">
-                Cada dado é protegido com criptografia total. Silêncios são perigosos, mas informações expostas são inaceitáveis.
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="text-center border-0 shadow-lg bg-white/90 backdrop-blur-md">
-            <CardHeader className="pb-4">
-              <div className="w-16 h-16 bg-gradient-to-br from-red-500/30 to-red-700/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Users className="w-8 h-8 text-red-600" />
-              </div>
-              <CardTitle className="text-xl font-bold text-red-700">Apoio Direcionado</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">
-                Encaminhamento imediato para psicólogos especializados. Cada minuto sem ação aumenta o risco de danos permanentes.
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* How it works */}
-        <div className="space-y-12 mt-16">
-          <div className="text-center space-y-4">
-            <h3 className="text-3xl md:text-4xl font-bold text-foreground">Como Funciona</h3>
-            <p className="text-lg text-red-700 font-semibold max-w-2xl mx-auto">
-              Um processo rápido, seguro e decisivo. Ignorar é aceitar que alunos continuem sofrendo em silêncio.
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-8">
-            {/* Step 1 */}
-            <Card className="group relative overflow-hidden border-0 shadow-xl bg-gradient-to-br from-red-100/20 to-red-200/10 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-              <CardContent className="p-8">
-                <div className="flex items-start gap-6">
-                  <div className="flex-shrink-0">
-                    <div className="w-16 h-16 bg-gradient-to-br from-red-500 to-red-700 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                      <UserCheck className="w-8 h-8 text-white" />
-                    </div>
-                    <div className="w-8 h-8 bg-red-300/40 rounded-full flex items-center justify-center mx-auto mt-3">
-                      <span className="text-red-700 font-bold text-lg">1</span>
-                    </div>
-                  </div>
-                  <div className="space-y-3">
-                    <h4 className="text-xl font-bold text-red-700">Identificação Urgente</h4>
-                    <p className="text-muted-foreground leading-relaxed">
-                      Cada aluno acessa com código da escola, nome e série. Ignorar sinais agora significa crises futuras. Cada segundo conta.
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Step 2 */}
-            <Card className="group relative overflow-hidden border-0 shadow-xl bg-gradient-to-br from-red-50/10 to-red-100/20 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-              <CardContent className="p-8">
-                <div className="flex items-start gap-6">
-                  <div className="flex-shrink-0">
-                    <div className="w-16 h-16 bg-gradient-to-br from-red-500 to-red-700 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                      <MessageSquare className="w-8 h-8 text-white" />
-                    </div>
-                    <div className="w-8 h-8 bg-red-300/40 rounded-full flex items-center justify-center mx-auto mt-3">
-                      <span className="text-red-700 font-bold text-lg">2</span>
-                    </div>
-                  </div>
-                  <div className="space-y-3">
-                    <h4 className="text-xl font-bold text-red-700">Triagem Emocional</h4>
-                    <p className="text-muted-foreground leading-relaxed">
-                      35 perguntas científicas revelam sofrimento silencioso. Cada resposta ignorada é uma oportunidade perdida de intervir antes da crise.
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Step 3 */}
-            <Card className="group relative overflow-hidden border-0 shadow-xl bg-gradient-to-br from-red-100/20 to-red-200/10 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-              <CardContent className="p-8">
-                <div className="flex items-start gap-6">
-                  <div className="flex-shrink-0">
-                    <div className="w-16 h-16 bg-gradient-to-br from-red-500 to-red-700 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                      <Target className="w-8 h-8 text-white" />
-                    </div>
-                    <div className="w-8 h-8 bg-red-300/40 rounded-full flex items-center justify-center mx-auto mt-3">
-                      <span className="text-red-700 font-bold text-lg">3</span>
-                    </div>
-                  </div>
-                  <div className="space-y-3">
-                    <h4 className="text-xl font-bold text-red-700">Resultado Alarmante</h4>
-                    <p className="text-muted-foreground leading-relaxed">
-                      Cada análise revela o nível real de sofrimento. Ignorar agora significa lidar com consequências irreversíveis depois.
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Step 4 */}
-            <Card className="group relative overflow-hidden border-0 shadow-xl bg-gradient-to-br from-red-50/10 to-red-100/20 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-              <CardContent className="p-8">
-                <div className="flex items-start gap-6">
-                  <div className="flex-shrink-0">
-                    <div className="w-16 h-16 bg-gradient-to-br from-red-500 to-red-700 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                      <HeadphonesIcon className="w-8 h-8 text-white" />
-                    </div>
-                    <div className="w-8 h-8 bg-red-300/40 rounded-full flex items-center justify-center mx-auto mt-3">
-                      <span className="text-red-700 font-bold text-lg">4</span>
-                    </div>
-                  </div>
-                  <div className="space-y-3">
-                    <h4 className="text-xl font-bold text-red-700">Apoio Profissional Imediato</h4>
-                    <p className="text-muted-foreground leading-relaxed">
-                      O sistema identifica alunos em risco e encaminha automaticamente para psicólogos especializados. Cada ação agora pode salvar vidas.
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Call to Action */}
-          <div className="text-center pt-12">
-            <div className="inline-flex items-center gap-4 p-6 bg-gradient-to-r from-red-100/20 to-red-200/20 rounded-2xl border border-red-400/30">
-              <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-700 rounded-xl flex items-center justify-center">
-                <Heart className="w-6 h-6 text-white" />
-              </div>
-              <div className="text-left">
-                <p className="font-semibold text-red-700">Sua escola não pode esperar</p>
-                <p className="text-sm text-red-600">Cada minuto de inação pesa na saúde emocional dos alunos.</p>
-              </div>
-              <Button 
-                onClick={() => navigate('/login')}
-                className="bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white shadow-lg"
+          <div className="md:w-1/2 flex justify-center">
+            <div className="bg-blue-800 p-6 rounded-lg text-center">
+              <svg
+                className="w-16 h-16 mx-auto text-green-500"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
               >
-                Implementar EmoTeen
-                <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M12 11c0-2.76 2.24-5 5-5s5 2.24 5 5v5h-5m-5-10C9.24 6 7 8.24 7 11v5H2v-5c0-2.76 2.24-5 5-5z"
+                />
+              </svg>
             </div>
           </div>
         </div>
-      </main>
 
-      {/* Footer */}
-      <footer className="px-4 py-8 border-t border-border/50">
-        <div className="max-w-6xl mx-auto text-center">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <EmoTeenLogo size="sm" />
-            <span className="font-semibold text-foreground">EmoTeen</span>
+        {/* Passo 2 – Triagem Emocional */}
+        <div className="mb-12 flex flex-col md:flex-row-reverse items-center bg-white rounded-lg shadow-md p-6">
+          <div className="md:w-1/2 mb-6 md:mb-0">
+            <h2 className="text-2xl font-bold text-blue-800 mb-4">Passo 2 – Triagem Emocional</h2>
+            <ul className="list-disc pl-6 text-gray-700 space-y-2">
+              <li>35 perguntas baseadas em evidência científica identificam sinais de sofrimento emocional antes que se tornem crises.</li>
+              <li>
+                <strong>Mensagem de impacto:</strong> Ignorar esses sinais pode custar o rendimento escolar e o bem-estar dos alunos.
+              </li>
+            </ul>
+            <div className="mt-4 flex space-x-4">
+              <span className="inline-block bg-green-500 text-white text-sm font-semibold px-3 py-1 rounded-full">Baixo</span>
+              <span className="inline-block bg-yellow-500 text-white text-sm font-semibold px-3 py-1 rounded-full animate-pulse">Médio</span>
+              <span className="inline-block bg-red-500 text-white text-sm font-semibold px-3 py-1 rounded-full animate-pulse">Alto</span>
+            </div>
+            <div className="mt-4 w-full bg-gray-200 rounded-full h-2.5">
+              <div className="bg-green-500 h-2.5 rounded-full" style={{ width: '70%' }}></div>
+            </div>
           </div>
-          <p className="text-sm text-muted-foreground">
-            Promovendo o bem-estar emocional de estudantes com tecnologia segura e cuidadosa.
-          </p>
+          <div className="md:w-1/2 flex justify-center">
+            <div className="bg-yellow-100 p-6 rounded-lg text-center">
+              <div className="w-16 h-16 mx-auto bg-gradient-to-r from-green-500 via-yellow-500 to-red-500 rounded-full flex items-center justify-center animate-pulse">
+                <span className="text-white text-2xl font-bold">2</span>
+              </div>
+            </div>
+          </div>
         </div>
-      </footer>
+
+        {/* Passo 3 – Resultado Personalizado */}
+        <div className="mb-12 flex flex-col md:flex-row items-center bg-white rounded-lg shadow-md p-6">
+          <div className="md:w-1/2 mb-6 md:mb-0">
+            <h2 className="text-2xl font-bold text-blue-800 mb-4">Passo 3 – Resultado Personalizado</h2>
+            <ul className="list-disc pl-6 text-gray-700 space-y-2">
+              <li>Relatórios claros, objetivos e imediatos sobre o estado emocional de cada aluno.</li>
+              <li>
+                <strong>Mensagem de impacto:</strong> Você não precisa adivinhar — agora é possível agir com precisão e rapidez.
+              </li>
+            </ul>
+          </div>
+          <div className="md:w-1/2 flex justify-center">
+            <div className="bg-green-100 p-6 rounded-lg text-center">
+              ```chartjs
+              {
+                type: 'pie',
+                data: {
+                  labels: ['Baixo Risco', 'Risco Moderado', 'Risco Alto'],
+                  datasets: [{
+                    data: [60, 30, 10],
+                    backgroundColor: ['#10B981', '#F59E0B', '#EF4444'],
+                    borderColor: ['#064E3B', '#B45309', '#991B1B'],
+                    borderWidth: 1
+                  }]
+                },
+                options: {
+                  responsive: true,
+                  plugins: {
+                    legend: {
+                      position: 'bottom',
+                      labels: {
+                        color: '#1F2937'
+                      }
+                    }
+                  }
+                }
+              }
+              ```
+            </div>
+          </div>
+        </div>
+
+        {/* Passo 4 – Apoio Profissional */}
+        <div className="mb-12 flex flex-col md:flex-row-reverse items-center bg-white rounded-lg shadow-md p-6">
+          <div className="md:w-1/2 mb-6 md:mb-0">
+            <h2 className="text-2xl font-bold text-blue-800 mb-4">Passo 4 – Apoio Profissional</h2>
+            <ul className="list-disc pl-6 text-gray-700 space-y-2">
+              <li>A EmoTeen identifica quando um aluno precisa de psicólogo ou terapeuta e permite encaminhamento imediato.</li>
+              <li>
+                <strong>Mensagem de impacto:</strong> Cada dia sem ação é mais um aluno sofrendo em silêncio.
+              </li>
+            </ul>
+            <a
+              href="#refer"
+              className="mt-4 inline-block bg-red-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-600 transition duration-300 animate-pulse"
+            >
+              Encaminhar Agora
+            </a>
+          </div>
+          <div className="md:w-1/2 flex justify-center">
+            <div className="bg-red-100 p-6 rounded-lg text-center">
+              <svg
+                className="w-16 h-16 mx-auto text-red-500"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5H0"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Mensagem Final */}
+      <section className="bg-red-600 text-white py-16 text-center">
+        <h2 className="text-3xl font-bold mb-6">Não ignore o sofrimento dos seus alunos</h2>
+        <p className="text-lg max-w-2xl mx-auto mb-8">
+          A EmoTeen transforma dados em ação. Cada minuto de inação aumenta o risco de problemas emocionais sérios. Com baixo esforço e alta eficácia, sua escola pode oferecer suporte real e imediato.
+        </p>
+        <a
+          href="#schedule"
+          className="inline-block bg-white text-red-600 font-semibold py-4 px-8 rounded-lg hover:bg-gray-100 transition duration-300 animate-pulse text-lg"
+        >
+          Agende agora a implementação da EmoTeen
+        </a>
+        <p className="mt-4 text-lg font-semibold">Não espere — a hora de proteger seus alunos é hoje.</p>
+      </section>
     </div>
   );
 };
 
-export default ComoFunciona;
+export default EmoTeenHowItWorks;
