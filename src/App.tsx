@@ -8,6 +8,10 @@ import Login from "./pages/Login";
 import Quiz from "./pages/Quiz";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
+import Logins from "./pages/Logins";
+import StudentDashboard from "./pages/student/StudentDashboard";
+import PsychologistDashboard from "./pages/psychologist/PsychologistDashboard";
+import SchoolDashboard from "./pages/school/SchoolDashboard";
 import ConsentimentoResponsavel from "./pages/ConsentimentoResponsavel";
 import PoliticaPrivacidade from "./pages/PoliticaPrivacidade";
 import TermosUso from "./pages/TermosUso";
@@ -24,6 +28,10 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/logins" element={<Logins />} />
+          <Route path="/student/dashboard" element={<StudentDashboard />} />
+          <Route path="/psychologist/dashboard" element={<PsychologistDashboard />} />
+          <Route path="/school/dashboard" element={<SchoolDashboard />} />
           <Route path="/consentimento" element={<ConsentimentoResponsavel />} />
           <Route path="/quiz" element={<Quiz />} />
           <Route path="/dashboard" element={<Dashboard />} />
