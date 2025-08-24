@@ -11,7 +11,7 @@ import NotFound from "./pages/NotFound";
 import ConsentimentoResponsavel from "./pages/ConsentimentoResponsavel";
 import PoliticaPrivacidade from "./pages/PoliticaPrivacidade";
 import TermosUso from "./pages/TermosUso";
-import FeedbackPage from "./pages/Feedback";
+import Feedback from "./pages/Feedback";
 import Report from "./pages/Report";
 import Session from "./pages/Session";
 // Removida a importação de ComoFunciona
