@@ -1,14 +1,21 @@
-import { useRouter } from "next/router";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-export default function FeedbackPage() {
-  const router = useRouter();
-  const { sid, r, ok } = router.query;
+const Feedback = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const query = new URLSearchParams(location.search);
+  const sid = query.get("sid");
+  const r = query.get("r");
+  const ok = query.get("ok");
   const [sending, setSending] = useState(false);
   const [done, setDone] = useState(!!ok);
 
   async function send(resposta: "bem_melhor" | "igual" | "nada_bem") {
-    if (!sid) { alert("Link inválido"); return; }
+    if (!sid) {
+      alert("Link inválido");
+      return;
+    }
     setSending(true);
     try {
       const res = await fetch("/api/feedback", {
@@ -53,4 +60,6 @@ export default function FeedbackPage() {
       </div>
     </div>
   );
-}
+};
+
+export default Feedback;
