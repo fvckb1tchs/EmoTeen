@@ -16,7 +16,7 @@ import PoliticaPrivacidade from "./pages/PoliticaPrivacidade";
 import TermosUso from "./pages/TermosUso";
 import FeedbackPage from "./pages/feedback";
 import Report from "./pages/report";
-import session from "./pages/session";
+import Session from "./pages/session";
 // Removida a importação de ComoFunciona
 
 const queryClient = new QueryClient();
@@ -40,7 +40,7 @@ const App = () => (
           <Route path="/termos-de-uso" element={<TermosUso />} />
           <Route path="/feedback" element={<FeedbackPage />} />
           <Route path="/report" element={<Report />} />
-          <Route path="/session" element={<session />} />
+          <Route path="/session" element={<Session />} />
           {/* Removida a rota para ComoFunciona */}
           <Route path="*" element={<NotFound />} />
         </Routes>
