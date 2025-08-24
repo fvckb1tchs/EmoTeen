@@ -14,6 +14,9 @@ import SchoolDashboard from "./pages/SchoolDashboard";
 import ConsentimentoResponsavel from "./pages/ConsentimentoResponsavel";
 import PoliticaPrivacidade from "./pages/PoliticaPrivacidade";
 import TermosUso from "./pages/TermosUso";
+import feedback from "./pages/feedback";
+import report from "./pages/report";
+import session from "./pages/session";
 // Removida a importação de ComoFunciona
 
 const queryClient = new QueryClient();
@@ -35,6 +38,9 @@ const App = () => (
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/politica-de-privacidade" element={<PoliticaPrivacidade />} />
           <Route path="/termos-de-uso" element={<TermosUso />} />
+          <Route path="/feedback" element={<feedback />} />
+          <Route path="/report" element={<report />} />
+          <Route path="/session" element={<session />} />
           {/* Removida a rota para ComoFunciona */}
           <Route path="*" element={<NotFound />} />
         </Routes>
