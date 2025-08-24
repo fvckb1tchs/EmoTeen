@@ -14,9 +14,9 @@ import SchoolDashboard from "./pages/SchoolDashboard";
 import ConsentimentoResponsavel from "./pages/ConsentimentoResponsavel";
 import PoliticaPrivacidade from "./pages/PoliticaPrivacidade";
 import TermosUso from "./pages/TermosUso";
-import FeedbackPage from "./pages/feedback";
-import Report from "./pages/report";
-import Session from "./pages/session";
+import FeedbackPage from "./pages/Feedback";
+import Report from "./pages/Report";
+import Session from "./pages/Session";
 // Removida a importação de ComoFunciona
 
 const queryClient = new QueryClient();
