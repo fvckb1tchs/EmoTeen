@@ -14,7 +14,7 @@ import SchoolDashboard from "./pages/SchoolDashboard";
 import ConsentimentoResponsavel from "./pages/ConsentimentoResponsavel";
 import PoliticaPrivacidade from "./pages/PoliticaPrivacidade";
 import TermosUso from "./pages/TermosUso";
-import feedback from "./pages/feedback";
+import FeedbackPage from "./pages/feedback";
 import report from "./pages/report";
 import session from "./pages/session";
 // Removida a importação de ComoFunciona
