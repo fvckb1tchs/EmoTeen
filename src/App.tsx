@@ -8,9 +8,6 @@ import Login from "./pages/Login";
 import Quiz from "./pages/Quiz";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
-import StudentDashboard from "./pages/StudentDashboard";
-import PsychologistDashboard from "./pages/PsychologistDashboard";
-import SchoolDashboard from "./pages/SchoolDashboard";
 import ConsentimentoResponsavel from "./pages/ConsentimentoResponsavel";
 import PoliticaPrivacidade from "./pages/PoliticaPrivacidade";
 import TermosUso from "./pages/TermosUso";
@@ -38,7 +35,7 @@ const App = () => (
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/politica-de-privacidade" element={<PoliticaPrivacidade />} />
           <Route path="/termos-de-uso" element={<TermosUso />} />
-          <Route path="/feedback" element={<FeedbackPage />} />
+          <Route path="/feedback" element={<Feedback />} />
           <Route path="/report" element={<Report />} />
           <Route path="/session" element={<Session />} />
           {/* Removida a rota para ComoFunciona */}
