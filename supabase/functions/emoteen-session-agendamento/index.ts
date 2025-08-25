@@ -2,7 +2,7 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
 
 // Crie uma variável de ambiente SUPABASE_RESEND_API_KEY no seu projeto Supabase
-const resend = new Resend(Deno.env.get("SUPABASE_RESEND_API_KEY")!);
+const resend = new Resend(Deno.env.get("RESEND_API_KEY")!);
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
