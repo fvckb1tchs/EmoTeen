@@ -2,7 +2,11 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
 
 // Crie uma variável de ambiente SUPABASE_RESEND_API_KEY no seu projeto Supabase
-const resend = new Resend(Deno.env.get("RESEND_API_KEY")!);
+import { createClient } from '@supabase/supabase-js'
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY)
+const { data, error } = await supabase.functions.invoke('emoteen-session-notification', {
+  body: { name: 'Functions' },
+})
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
