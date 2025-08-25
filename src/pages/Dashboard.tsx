@@ -186,37 +186,48 @@ const Dashboard = () => {
   };
 
   const handleAgendarSessao = async (resposta: RespostaQuiz) => {
-    setAgendandoSessao(resposta.id);
-    
-    try {
-      const { data, error } = await supabase.functions.invoke('agendar-sessao', {
-        body: {
-          alunoNome: resposta.aluno_nome,
-          escolaNome: escola || 'Escola não identificada',
-          resultado: resposta.resultado,
-          pontuacao: resposta.pontuacao,
-          dataEnvio: resposta.data_envio
-        }
-      });
+  setAgendandoSessao(resposta.id);
 
-      if (error) throw error;
+  try {
+    const { data, error } = await supabase.functions.invoke('agendar-sessao', {
+      body: JSON.stringify({
+        alunoNome: resposta.aluno_nome,
+        escolaNome: escola || 'Escola não identificada',
+        resultado: resposta.resultado,
+        pontuacao: resposta.pontuacao,
+        dataEnvio: resposta.data_envio,
+      }),
+    });
 
-      toast({
-        title: "Sessão agendada! 📅",
-        description: `Solicitação enviada para EmoTeen. O aluno ${resposta.aluno_nome} receberá contato em breve.`,
-      });
-    } catch (error) {
-      console.error('Erro ao agendar sessão:', error);
-      toast({
-        title: "Erro ao agendar",
-        description: "Não foi possível agendar a sessão. Tente novamente.",
-        variant: "destructive"
-      });
-    } finally {
-      setAgendandoSessao(null);
-    }
-  };
+    if (error) throw error;
 
+    // Supabase Functions geralmente retorna { data } dentro de data
+    const emailResponse = data?.data;
+
+    toast({
+      title: "Sessão agendada! 📅",
+      description: `Solicitação enviada para EmoTeen. O aluno ${resposta.aluno_nome} receberá contato em breve.`,
+    });
+
+    // Opcional: marcar o aluno como encaminhado no front-end
+    setRespostas(prev =>
+      prev.map(r =>
+        r.id === resposta.id ? { ...r, encaminhado: true } : r
+      )
+    );
+  } catch (error: any) {
+    console.error('Erro ao agendar sessão:', error);
+
+    // Mensagem detalhada de erro, útil para debug
+    toast({
+      title: "Erro ao agendar",
+      description: error?.message || "Não foi possível agendar a sessão. Tente novamente.",
+      variant: "destructive",
+    });
+  } finally {
+    setAgendandoSessao(null);
+  }
+};
   const handleAdicionarSerie = async () => {
     if (!novaSerie.trim()) return;
 
