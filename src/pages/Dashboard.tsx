@@ -189,39 +189,39 @@ const Dashboard = () => {
   setAgendandoSessao(resposta.id);
 
   try {
-    const { data, error } = await supabase.functions.invoke('agendar-sessao', {
-      body: JSON.stringify({
-        alunoNome: resposta.aluno_nome,
-        escolaNome: escola || 'Escola não identificada',
-        resultado: resposta.resultado,
-        pontuacao: resposta.pontuacao,
-        dataEnvio: resposta.data_envio,
-      }),
-    });
+    // Chamada da Edge Function correta
+    const { data, error } = await supabase.functions.invoke(
+      'emoteen-session-notification', // Nome exato da função
+      {
+        body: {
+          alunoNome: resposta.aluno_nome,
+          escolaNome: escola || 'Escola não identificada',
+          resultado: resposta.resultado,
+          pontuacao: resposta.pontuacao,
+          dataEnvio: resposta.data_envio,
+        },
+      }
+    );
 
+    // Checagem de erro retornado pela função
     if (error) throw error;
-
-    // Supabase Functions geralmente retorna { data } dentro de data
-    const emailResponse = data?.data;
 
     toast({
       title: "Sessão agendada! 📅",
       description: `Solicitação enviada para EmoTeen. O aluno ${resposta.aluno_nome} receberá contato em breve.`,
     });
 
-    // Opcional: marcar o aluno como encaminhado no front-end
-    setRespostas(prev =>
-      prev.map(r =>
-        r.id === resposta.id ? { ...r, encaminhado: true } : r
-      )
-    );
-  } catch (error: any) {
-    console.error('Erro ao agendar sessão:', error);
+  } catch (err: any) {
+    console.error('Erro ao agendar sessão:', err);
 
-    // Mensagem detalhada de erro, útil para debug
+    let mensagemErro = "Não foi possível agendar a sessão. Tente novamente.";
+    
+    // Se o erro tiver message do Supabase
+    if (err?.message) mensagemErro = err.message;
+
     toast({
       title: "Erro ao agendar",
-      description: error?.message || "Não foi possível agendar a sessão. Tente novamente.",
+      description: mensagemErro,
       variant: "destructive",
     });
   } finally {
